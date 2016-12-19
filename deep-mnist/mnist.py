@@ -3,15 +3,21 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 class GraphConfig:
     learning_rate = 0.002
+    n_hidden = 16
 
 def build_graph(cfg):
     inputs = tf.placeholder(tf.float32, [None, 784], name="inputs")
     labels = tf.placeholder(tf.float32, [None, 10], name="labels")
 
-    W = tf.Variable(tf.random_uniform([784, 10], -0.1, 0.1), name="weights")
-    b = tf.Variable(tf.random_uniform([10], -0.1, 0.1), name="biases")
+    W_in_hidden1 = tf.Variable(tf.random_uniform([784, cfg.n_hidden], -0.1, 0.1), name="weights_in_hidden1")
+    b_hidden1 = tf.Variable(tf.random_uniform([cfg.n_hidden], -0.1, 0.1), name="biases_hidden1")
 
-    logits = tf.matmul(inputs, W) + b
+    hidden1 = tf.nn.relu(tf.matmul(inputs, W_in_hidden1) + b_hidden1)
+
+    W_hidden1_out = tf.Variable(tf.random_uniform([cfg.n_hidden, 10], -0.1, 0.1), name="weights_hidden1_out")
+    b_out = tf.Variable(tf.random_uniform([10], -0.1, 0.1), name="biases_out")
+
+    logits = tf.matmul(hidden1, W_hidden1_out) + b_out
 
     proba = tf.nn.softmax(logits)
     prediction = tf.argmax(proba, 1)
@@ -31,26 +37,22 @@ def build_graph(cfg):
     g.loss = loss
     g.train = train
     g.correct = correct
-    # g.total = total
 
     return g
 
 def main():
     graph = build_graph(GraphConfig()) 
     mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
-    i = 0
     with tf.Session() as sess:
         sess.run(tf.initialize_all_variables())
-        for epoch in xrange(10):
+        for epoch in xrange(100):
             while mnist.train.epochs_completed < epoch + 1:
                 inputs, labels = mnist.train.next_batch(100)
                 # Train on the batch:
-                correct, loss, _ = sess.run([graph.correct, graph.loss, graph.train], feed_dict={
+                sess.run(graph.train, feed_dict={
                     graph.inputs: inputs,
                     graph.labels: labels,
                 })
-                # print "Batch %6d. Accuracy: %.3f. Loss: %12.5f" % (i, correct / float(inputs.shape[0]), loss)
-                i += 1
             # Train error:
             train_acc = sess.run(graph.correct, feed_dict={
                 graph.inputs: mnist.train.images,
