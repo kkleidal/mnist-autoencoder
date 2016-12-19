@@ -2,14 +2,14 @@ import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
 class GraphConfig:
-    learning_rate = 0.01
+    learning_rate = 0.002
 
 def build_graph(cfg):
     inputs = tf.placeholder(tf.float32, [None, 784], name="inputs")
     labels = tf.placeholder(tf.float32, [None, 10], name="labels")
 
-    W = tf.Variable(tf.random_uniform([784, 10], -1.0, 1.0), name="weights")
-    b = tf.Variable(tf.random_uniform([10], -1.0, 1.0), name="biases")
+    W = tf.Variable(tf.random_uniform([784, 10], -0.1, 0.1), name="weights")
+    b = tf.Variable(tf.random_uniform([10], -0.1, 0.1), name="biases")
 
     logits = tf.matmul(inputs, W) + b
 
