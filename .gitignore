@@ -1,1 +1,6 @@
+MNIST_data
+tflog
+*.tar.gz
+*.pyc
 .*.swp
+.ipynb_checkpoints

@@ -1,5 +1,0 @@
-MNIST_data
-tflog
-*.tar.gz
-*.pyc
-.ipynb_checkpoints
