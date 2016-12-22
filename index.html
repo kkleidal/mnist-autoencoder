@@ -13272,12 +13272,29 @@ Graphically, the network looks like:</p>
 <p>Completely nonsensical (by human standards).  This is explained by the fact that the loss function at $\alpha = 0$ no longer drives one-hot vectors in the <code>class-output</code> layer to be meaningful.  That is, for autoencoding accuracy, it's more useful to use a weighted combination of multiple units of the <code>class-output</code> layer rather than depending primarily on one.  Intuitively, this makes sense, because a choice of any arbitrary 10-class probability distribution allows for many combinations (and much more information) than a choice of one of 10 one-hot vectors.</p>
 <p>$\alpha$ can be thought of as a hyperparameter which tunes the extent to which we are forcing the information bottleneck to encode the digit classes.
 Take a look at the difference in the histograms of the softmax outputs for $\alpha = 0$ and $\alpha = 0.9$:</p>
-<p><table></p>
-<p><tr></p>
-<p><td style="text-align: center"><img src="images/autoencoder-only-softmax-out.png">$\alpha = 0$</td><td style="text-align: center"><img src="images/alpha0.9-softmax-out.png">$\alpha = 0.9$</td>
-&lt;/tr&gt;
-&lt;/table&gt;
-As you can see, the output of the softmax layer is driven to output $1$'s and $0$'s (i.e. one-hot vectors) when cross-entropy loss for digit classification is taken into account ($\alpha > 0$).  In contrast, for $\alpha = 0$, the weights are distributed with mean near the uniform distribution over the 10 classes.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<table>
+<tr>
+<td style="text-align: center"><img src="images/autoencoder-only-softmax-out.png">$\alpha = 0$</td><td style="text-align: center"><img src="images/alpha0.9-softmax-out.png">$\alpha = 0.9$</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As you can see, the output of the softmax layer is driven to output $1$'s and $0$'s (i.e. one-hot vectors) when cross-entropy loss for digit classification is taken into account ($\alpha > 0$).  In contrast, for $\alpha = 0$, the weights are distributed with mean near the uniform distribution over the 10 classes.</p>
 
 </div>
 </div>
