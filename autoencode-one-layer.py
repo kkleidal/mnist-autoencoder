@@ -9,6 +9,8 @@ class GraphConfig:
     n_hidden2 = 16
 
 def build_graph(cfg):
+    tf.set_random_seed(42)
+
     inputs = tf.placeholder(tf.float32, [None, 784], name="inputs")
     labels = tf.placeholder(tf.float32, [None, 10], name="labels")
 
@@ -123,13 +125,13 @@ def build_graph(cfg):
 
     return g
 
-def main():
+def main(alpha=0.9):
     graph = build_graph(GraphConfig()) 
     mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
     with tf.Session() as sess:
         summary_writer = tf.summary.FileWriter('tflog', sess.graph)
         sess.run(tf.global_variables_initializer())
-        sess.run(graph.alpha.assign(0.0))
+        sess.run(graph.alpha.assign(alpha))
         for epoch in xrange(100):
             while mnist.train.epochs_completed < epoch + 1:
                 inputs, labels = mnist.train.next_batch(100)

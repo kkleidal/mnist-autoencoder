@@ -13,7 +13,7 @@ def variable_summaries(var):
         yield tf.summary.histogram('histogram', var)
 
 def weight_variable(dims):
-    return tf.Variable(tf.random_uniform(dims, -0.1, 0.1), name="weights")
+    return tf.Variable(tf.truncated_normal(dims, stddev=0.1), name="weights")
 
 def bias_variable(dim):
-    return tf.Variable(tf.random_uniform([dim], -0.1, 0.1), name="bias")
+    return tf.Variable(tf.constant(0.1, shape=[dim]), name="bias")
